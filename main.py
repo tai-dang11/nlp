@@ -158,4 +158,4 @@ optimizer, schedule = create_optimizer(
 
 model.compile(optimizer=optimizer)
 
-model.fit(train_set, validation_data=validation_set, epochs=1)
+# model.fit(train_set, validation_data=validation_set, epochs=1)
