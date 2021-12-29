@@ -1,44 +1,16 @@
 from transformers import Trainer, AlbertTokenizer, TFAlbertForQuestionAnswering, TrainingArguments
 import tensorflow as tf
 from transformers import AutoTokenizer
-from datasets import load_dataset
-
-squad = load_dataset("squad")
+from tensorflow.keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau
 tokenizer = AutoTokenizer.from_pretrained('albert-base-v2')
 model = TFAlbertForQuestionAnswering.from_pretrained('albert-base-v2')
 
-import transformers
 squad_v2 = False
 # model_checkpoint = "distilbert-base-uncased"
 batch_size = 16
 from datasets import load_dataset, load_metric
 datasets = load_dataset("squad_v2" if squad_v2 else "squad")
 
-from datasets import ClassLabel, Sequence
-import random
-import pandas as pd
-
-
-# def show_random_elements(dataset, num_examples=10):
-#     assert num_examples <= len(
-#         dataset
-#     ), "Can't pick more elements than there are in the dataset."
-#     picks = []
-#     for _ in range(num_examples):
-#         pick = random.randint(0, len(dataset) - 1)
-#         while pick in picks:
-#             pick = random.randint(0, len(dataset) - 1)
-#         picks.append(pick)
-#
-#     df = pd.DataFrame(dataset[picks])
-#     for column, typ in dataset.features.items():
-#         if isinstance(typ, ClassLabel):
-#             df[column] = df[column].transform(lambda i: typ.names[i])
-#         elif isinstance(typ, Sequence) and isinstance(typ.feature, ClassLabel):
-#             df[column] = df[column].transform(
-#                 lambda x: [typ.feature.names[i] for i in x]
-#             )
-#     display(HTML(df.to_html()))
 pad_on_right = tokenizer.padding_side == "right"
 max_length = 384  # The maximum length of a feature (question and context)
 doc_stride = 128
@@ -129,10 +101,7 @@ learning_rate = 2e-5
 num_train_epochs = 2
 weight_decay = 0.01
 from  transformers.data.data_collator import tf_default_data_collator
-# from transformers.data.data_collator import
-from transformers import DefaultDataCollator
 
-# data_collator = tf_default_data_collator(return_tensors="tf")
 data_collator = tf_default_data_collator
 train_set = tokenized_datasets["train"].to_tf_dataset(
     columns=["attention_mask", "input_ids", "start_positions", "end_positions"],
@@ -146,6 +115,19 @@ validation_set = tokenized_datasets["validation"].to_tf_dataset(
     batch_size=batch_size,
     collate_fn=data_collator,
 )
+def callback(checkpoint_path, LOGS):
+
+    checkpoint = ModelCheckpoint(checkpoint_path, verbose=1, save_weights_only=False, mode='min')
+    reduce_lr = ReduceLROnPlateau(factor=0.50, monitor='loss', patience=3, min_lr=0.000001, verbose=1)
+    tensorboard = TensorBoard(log_dir=LOGS, histogram_freq=0, write_graph=True, write_images=True)
+    callbacks_list = [checkpoint, reduce_lr, tensorboard]
+
+    return callbacks_list
+
+checkpoint_path ="/Users/dttai11/nlp/logs"
+LOGS = './logs/tensorboard'
+callbacks_list = callback(checkpoint_path,LOGS)
+
 
 from transformers import create_optimizer
 
@@ -158,4 +140,4 @@ optimizer, schedule = create_optimizer(
 
 model.compile(optimizer=optimizer)
 
-# model.fit(train_set, validation_data=validation_set, epochs=1)
+model.fit(train_set, validation_data=validation_set, epochs=1,callbacks=callbacks_list,)
