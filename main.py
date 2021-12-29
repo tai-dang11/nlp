@@ -1,5 +1,4 @@
 from transformers import Trainer, AlbertTokenizer, TFAlbertForQuestionAnswering, TrainingArguments
-import tensorflow as tf
 from transformers import AutoTokenizer
 from tensorflow.keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau
 tokenizer = AutoTokenizer.from_pretrained('albert-base-v2')
@@ -128,7 +127,6 @@ checkpoint_path ="/Users/dttai11/nlp/logs"
 LOGS = './logs/tensorboard'
 callbacks_list = callback(checkpoint_path,LOGS)
 
-
 from transformers import create_optimizer
 
 total_train_steps = (len(tokenized_datasets["train"]) // batch_size) * num_train_epochs
@@ -138,6 +136,6 @@ optimizer, schedule = create_optimizer(
 )
 
 
-# model.compile(optimizer=optimizer)
+model.compile(optimizer=optimizer)
 
 model.fit(train_set, validation_data=validation_set, epochs=1,callbacks=callbacks_list,)
