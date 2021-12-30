@@ -136,6 +136,6 @@ optimizer, schedule = create_optimizer(
 )
 
 
-model.compile(optimizer=optimizer)
+# model.compile(optimizer=optimizer)
 
-model.fit(train_set, validation_data=validation_set, epochs=1,callbacks=callbacks_list,)
+model.fit(train_set, validation_data=validation_set, epochs=1)
