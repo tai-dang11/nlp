@@ -114,18 +114,18 @@ validation_set = tokenized_datasets["validation"].to_tf_dataset(
     batch_size=batch_size,
     collate_fn=data_collator,
 )
-def callback(checkpoint_path, LOGS):
-
-    checkpoint = ModelCheckpoint(checkpoint_path, verbose=1, save_weights_only=False, mode='min')
-    reduce_lr = ReduceLROnPlateau(factor=0.50, monitor='loss', patience=3, min_lr=0.000001, verbose=1)
-    tensorboard = TensorBoard(log_dir=LOGS, histogram_freq=0, write_graph=True, write_images=True)
-    callbacks_list = [checkpoint, reduce_lr, tensorboard]
-
-    return callbacks_list
-
-checkpoint_path ="/Users/dttai11/nlp/logs"
-LOGS = './logs/tensorboard'
-callbacks_list = callback(checkpoint_path,LOGS)
+# def callback(checkpoint_path, LOGS):
+#
+#     checkpoint = ModelCheckpoint(checkpoint_path, verbose=1, save_weights_only=False, mode='min')
+#     reduce_lr = ReduceLROnPlateau(factor=0.50, monitor='loss', patience=3, min_lr=0.000001, verbose=1)
+#     tensorboard = TensorBoard(log_dir=LOGS, histogram_freq=0, write_graph=True, write_images=True)
+#     callbacks_list = [checkpoint, reduce_lr, tensorboard]
+#
+#     return callbacks_list
+#
+# checkpoint_path ="/Users/dttai11/nlp/logs"
+# LOGS = './logs/tensorboard'
+# callbacks_list = callback(checkpoint_path,LOGS)
 
 from transformers import create_optimizer
 
@@ -135,7 +135,9 @@ optimizer, schedule = create_optimizer(
     init_lr=learning_rate, num_warmup_steps=0, num_train_steps=total_train_steps
 )
 
+model.compile(optimizer=optimizer)
 
-# model.compile(optimizer=optimizer)
+# model.fit(train_set, validation_data=validation_set, epochs=3)
 
-model.fit(train_set, validation_data=validation_set, epochs=1)
+# model.save("/Users/dttai11/nlp/logs")
+model.save_pretrained("my_model", saved_model=True)
