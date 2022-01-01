@@ -135,7 +135,7 @@ optimizer, schedule = create_optimizer(
     init_lr=learning_rate, num_warmup_steps=0, num_train_steps=total_train_steps
 )
 
-model.compile(optimizer=optimizer)
+# model.compile(optimizer=optimizer)
 
 # model.fit(train_set, validation_data=validation_set, epochs=3)
 
