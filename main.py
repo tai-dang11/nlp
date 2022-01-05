@@ -143,3 +143,22 @@ model.compile(optimizer=optimizer)
 model.save_pretrained("my_model", saved_model=True)
 # model.save("model_name",save_format='tf')
 
+
+# WARNING:tensorflow:Skipping full serialization of Keras layer <keras.layers.core.dropout.Dropout object at 0x2b030dfd0>, because it is not built.
+# WARNING:tensorflow:Skipping full serialization of Keras layer <keras.layers.core.dropout.Dropout object at 0x2b20b3310>, because it is not built.
+# WARNING:tensorflow:Skipping full serialization of Keras layer <keras.layers.core.dropout.Dropout object at 0x2b20c36a0>, because it is not built.
+# WARNING:tensorflow:Skipping full serialization of Keras layer <keras.layers.core.dropout.Dropout object at 0x2b20cba30>, because it is not built.
+# WARNING:tensorflow:Skipping full serialization of Keras layer <keras.layers.core.dropout.Dropout object at 0x2b20d9dc0>, because it is not built.
+# WARNING:tensorflow:Skipping full serialization of Keras layer <keras.layers.core.dropout.Dropout object at 0x2b20ed190>, because it is not built.
+# Traceback (most recent call last):
+#   File "/Users/dttai11/nlp/test.py", line 54, in <module>
+#     model.save_pretrained("my_model", saved_model=True)
+#   File "/Users/dttai11/miniforge3/envs/nlp/lib/python3.8/site-packages/transformers/modeling_tf_utils.py", line 1345, in save_pretrained
+#     self.save(saved_model_dir, include_optimizer=False, signatures=self.serving)
+#   File "/Users/dttai11/miniforge3/envs/nlp/lib/python3.8/site-packages/keras/utils/traceback_utils.py", line 67, in error_handler
+#     raise e.with_traceback(filtered_tb) from None
+#   File "/Users/dttai11/miniforge3/envs/nlp/lib/python3.8/site-packages/tensorflow/python/training/tracking/data_structures.py", line 869, in _checkpoint_dependencies
+#     raise ValueError(
+# ValueError: Unable to save the object {'loss': <function dummy_loss at 0x28d86c430>, 'logits': None} (a dictionary wrapper constructed automatically on attribute assignment). The wrapped dictionary was modified outside the wrapper (its final value was {'loss': <function dummy_loss at 0x28d86c430>, 'logits': None}, its value when a checkpoint dependency was added was None), which breaks restoration on object creation.
+#
+# If you don't need this dictionary checkpointed, wrap it in a non-trackable object; it will be subsequently ignored.
