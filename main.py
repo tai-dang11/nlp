@@ -137,8 +137,9 @@ optimizer, schedule = create_optimizer(
 
 model.compile(optimizer=optimizer)
 
-model.fit(train_set, validation_data=validation_set, epochs=1)
+# model.fit(train_set, validation_data=validation_set, epochs=1)
 
 # model.save("/Users/dttai11/nlp/logs")
-# model.save_pretrained("my_model", saved_model=True)
+model.save_pretrained("my_model", saved_model=True)
 # model.save("model_name",save_format='tf')
+
