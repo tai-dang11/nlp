@@ -7,8 +7,8 @@ from transformers import TFAutoModel
 #
 # tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
 # model = TFAutoModelForSequenceClassification.from_pretrained("distilbert-base-uncased", num_labels=2)
-# # tokenizer = AutoTokenizer.from_pretrained('albert-base-v2')
-# # model = TFAutoModelForSequenceClassification.from_pretrained('albert-base-v2')
+# tokenizer = AutoTokenizer.from_pretrained('albert-base-v2')
+model = TFAutoModel.from_pretrained('albert-large-v2')
 #
 #
 # imdb = load_dataset("imdb")
@@ -82,5 +82,5 @@ from transformers import TFAutoModel
 # #zArUvzIKpwoqyympFPzkclWgFcEUNsbSpGNxYAtnaMhrNXQwvtrIHWiRHQIfGSmKiRGRRLMCqDIfaARPOPoxXLsVTvyJWSoChphrwytPLDrGUnJDdNImfsXJcYvqdBWB
 
 
-model = TFAutoModel.from_pretrained("SS8/test2")
+# model = TFAutoModel.from_pretrained("SS8/test2")
 model.summary()
