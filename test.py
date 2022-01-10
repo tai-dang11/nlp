@@ -4,51 +4,50 @@ from transformers import AutoTokenizer
 from transformers import DataCollatorWithPadding
 from transformers import create_optimizer
 from transformers import TFAutoModel
-#
+
 # tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
 # model = TFAutoModelForSequenceClassification.from_pretrained("distilbert-base-uncased", num_labels=2)
-# tokenizer = AutoTokenizer.from_pretrained('albert-base-v2')
-model = TFAutoModel.from_pretrained('albert-large-v2')
-#
-#
-# imdb = load_dataset("imdb")
-#
-# def preprocess_function(examples):
-#     return tokenizer(examples["text"], truncation=True)
-#
-# tokenized_imdb = imdb.map(preprocess_function, batched=True)
-#
-# # from transformers.data.data_collator import tf_default_data_collator
-# # data_collator = tf_default_data_collator
-# data_collator = DataCollatorWithPadding(tokenizer, return_tensors="tf")
-# batch_size = 16
-#
-# tf_train_dataset = tokenized_imdb["train"].to_tf_dataset(
-#     columns=['attention_mask', 'input_ids', 'label'],
-#     shuffle=True,
-#     batch_size=batch_size,
-#     collate_fn=data_collator,
-# )
-#
-# tf_validation_dataset = tokenized_imdb["train"].to_tf_dataset(
-#     columns=['attention_mask', 'input_ids', 'label'],
-#     shuffle=False,
-#     batch_size=batch_size,
-#     collate_fn=data_collator,
-# )
-#
-# num_epochs = 5
-# batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
-# total_train_steps = int(batches_per_epoch * num_epochs)
-# optimizer, schedule = create_optimizer(
-#     init_lr=2e-5,
-#     num_warmup_steps=0,
-#     num_train_steps=total_train_steps
-# )
-#
-# model.compile(optimizer=optimizer)
+tokenizer = AutoTokenizer.from_pretrained('albert-base-v2')
+model = TFAutoModel.from_pretrained('albert-base-v2')
+
+imdb = load_dataset("imdb")
+
+def preprocess_function(examples):
+    return tokenizer(examples["text"], truncation=True)
+
+tokenized_imdb = imdb.map(preprocess_function, batched=True)
+
+# from transformers.data.data_collator import tf_default_data_collator
+# data_collator = tf_default_data_collator
+data_collator = DataCollatorWithPadding(tokenizer, return_tensors="tf")
+batch_size = 16
+
+tf_train_dataset = tokenized_imdb["train"].to_tf_dataset(
+    columns=['attention_mask', 'input_ids', 'label'],
+    shuffle=True,
+    batch_size=batch_size,
+    collate_fn=data_collator,
+)
+
+tf_validation_dataset = tokenized_imdb["train"].to_tf_dataset(
+    columns=['attention_mask', 'input_ids', 'label'],
+    shuffle=False,
+    batch_size=batch_size,
+    collate_fn=data_collator,
+)
+
+num_epochs = 5
+batches_per_epoch = len(tokenized_imdb["train"]) // batch_size
+total_train_steps = int(batches_per_epoch * num_epochs)
+optimizer, schedule = create_optimizer(
+    init_lr=2e-5,
+    num_warmup_steps=0,
+    num_train_steps=total_train_steps
+)
+
+model.compile(optimizer=optimizer)
 # # tf.keras.utils.plot_model(model, show_shapes=True, dpi=48)
-# # model.summary()
+model.summary()
 # # model.fit(
 # #     tf_train_dataset,
 # #     # validation_data=tf_validation_dataset,
@@ -79,8 +78,6 @@ model = TFAutoModel.from_pretrained('albert-large-v2')
 # #
 # # If you don't need this dictionary checkpointed, wrap it in a non-trackable object; it will be subsequently ignored.
 #
-# #zArUvzIKpwoqyympFPzkclWgFcEUNsbSpGNxYAtnaMhrNXQwvtrIHWiRHQIfGSmKiRGRRLMCqDIfaARPOPoxXLsVTvyJWSoChphrwytPLDrGUnJDdNImfsXJcYvqdBWB
 
 
-# model = TFAutoModel.from_pretrained("SS8/test2")
-model.summary()
+
