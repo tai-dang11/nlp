@@ -48,11 +48,11 @@ optimizer, schedule = create_optimizer(
 model.compile(optimizer=optimizer)
 # # tf.keras.utils.plot_model(model, show_shapes=True, dpi=48)
 model.summary()
-# # model.fit(
-# #     tf_train_dataset,
-# #     # validation_data=tf_validation_dataset,
-# #     epochs=1,
-# # )
+# model.fit(
+#     tf_train_dataset,
+#     # validation_data=tf_validation_dataset,
+#     epochs=1,
+# )
 #
 # # model.get_config()
 # # model.save_pretrained("my_model")
