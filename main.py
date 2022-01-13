@@ -1,16 +1,12 @@
-from transformers import AlbertTokenizer, TFAlbertForQuestionAnswering, TFDistilBertForQuestionAnswering
+from transformers import TFAlbertForQuestionAnswering
 import tensorflow as tf
 from datasets import load_dataset
 squad = load_dataset("squad")
 from transformers import AutoTokenizer
 
-tokenizer = AutoTokenizer.from_pretrained('albert-base-v1')
-model = TFAlbertForQuestionAnswering.from_pretrained('albert-base-v1')
-# tokenizer = AutoTokenizer.from_pretrained('albert-large-v1')
-# model = TFAlbertForQuestionAnswering.from_pretrained('albert-large-v1')
+tokenizer = AutoTokenizer.from_pretrained('albert-base-v2')
+model = TFAlbertForQuestionAnswering.from_pretrained('albert-base-v2')
 
-# tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
-# model = TFDistilBertForQuestionAnswering.from_pretrained("distilbert-base-uncased", num_labels=2)
 
 def preprocess_function(examples):
     questions = [q.strip() for q in examples["question"]]
@@ -96,12 +92,12 @@ optimizer, schedule = create_optimizer(
 )
 
 model.compile(optimizer=optimizer)
-model.save_pretrained("test")
-model.fit(
-    tf_train_set,
-    validation_data=tf_validation_set,
-    epochs=1,
-)
+# model.save_pretrained("test")
+# model.fit(
+#     tf_train_set,
+#     validation_data=tf_validation_set,
+#     epochs=1,
+# )
 
 # model.save_weights('model.h5',save_format="h5")
 
