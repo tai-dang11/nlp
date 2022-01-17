@@ -93,12 +93,13 @@ optimizer, schedule = create_optimizer(
 
 model.compile(optimizer=optimizer)
 # model.save_pretrained("test")
-# model.fit(
-#     tf_train_set,
-#     validation_data=tf_validation_set,
-#     epochs=1,
-# )
+model.fit(
+    tf_train_set,
+    validation_data=tf_validation_set,
+    epochs=1,
+)
 
 # model.save_weights('model.h5',save_format="h5")
+
 
 
