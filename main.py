@@ -98,7 +98,8 @@ model.fit(
     validation_data=tf_validation_set,
     epochs=1,
 )
-
+model.push_to_hub('huggingface.co/SS8/test2')
+tokenizer.push_to_hub('huggingface.co/SS8/test2')
 # model.save_weights('model.h5',save_format="h5")
 
 
