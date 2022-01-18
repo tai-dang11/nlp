@@ -3,6 +3,9 @@ import tensorflow as tf
 from datasets import load_dataset
 squad = load_dataset("squad")
 from transformers import AutoTokenizer
+from transformers import create_optimizer
+from transformers.data.data_collator import tf_default_data_collator
+
 
 tokenizer = AutoTokenizer.from_pretrained('albert-base-v2')
 model = TFAlbertForQuestionAnswering.from_pretrained('albert-base-v2')
@@ -61,7 +64,6 @@ def preprocess_function(examples):
 
 tokenized_squad = squad.map(preprocess_function, batched=True, remove_columns=squad["train"].column_names)
 
-from transformers.data.data_collator import tf_default_data_collator
 data_collator = tf_default_data_collator
 
 tf_train_set = tokenized_squad["train"].to_tf_dataset(
@@ -80,7 +82,7 @@ tf_validation_set = tokenized_squad["validation"].to_tf_dataset(
     collate_fn=data_collator,
 )
 
-from transformers import create_optimizer
+
 
 batch_size = 16
 num_epochs = 2
@@ -92,7 +94,6 @@ optimizer, schedule = create_optimizer(
 )
 
 model.compile(optimizer=optimizer)
-# model.save_pretrained("test")
 model.fit(
     tf_train_set,
     validation_data=tf_validation_set,
