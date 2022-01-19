@@ -52,9 +52,7 @@ model.fit(
     # validation_data=tf_validation_dataset,
     epochs=1,
 )
-#
-# # model.get_config()
-# # model.save_pretrained("my_model")
+
 # # model.push_to_hub('huggingface.co/SS8/test2')
 # tokenizer.push_to_hub('huggingface.co/SS8/test2')
 # # model.save
