@@ -6,10 +6,8 @@ from transformers import AutoTokenizer
 from transformers import create_optimizer
 from transformers.data.data_collator import tf_default_data_collator
 
-
 tokenizer = AutoTokenizer.from_pretrained('albert-base-v2')
 model = TFAlbertForQuestionAnswering.from_pretrained('albert-base-v2')
-
 
 def preprocess_function(examples):
     questions = [q.strip() for q in examples["question"]]
