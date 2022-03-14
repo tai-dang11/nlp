@@ -94,10 +94,10 @@ model.compile(optimizer=optimizer)
 model.fit(
     tf_train_set,
     validation_data=tf_validation_set,
-    epochs=1,
+    epochs=3,
 )
-model.push_to_hub('huggingface.co/SS8/Albert')
-tokenizer.push_to_hub('huggingface.co/SS8/Albert')
+model.push_to_hub('huggingface.co/SS8/Albert-basev2')
+tokenizer.push_to_hub('huggingface.co/SS8/Albert-basev2')
 # model.save_weights('model.h5',save_format="h5")
 
 
