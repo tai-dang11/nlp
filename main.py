@@ -1,5 +1,4 @@
 from transformers import TFAlbertForQuestionAnswering
-import tensorflow as tf
 from datasets import load_dataset
 squad = load_dataset("squad")
 from transformers import AutoTokenizer
@@ -97,8 +96,8 @@ model.fit(
     validation_data=tf_validation_set,
     epochs=1,
 )
-model.push_to_hub('huggingface.co/SS8/test2')
-tokenizer.push_to_hub('huggingface.co/SS8/test2')
+model.push_to_hub('huggingface.co/SS8/Albert')
+tokenizer.push_to_hub('huggingface.co/SS8/Albert')
 # model.save_weights('model.h5',save_format="h5")
 
 
