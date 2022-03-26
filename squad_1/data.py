@@ -2,27 +2,7 @@ from datasets import load_dataset, load_metric
 from transformers import AutoTokenizer
 from transformers.data.data_collator import tf_default_data_collator
 
-""""
-Now one specific thing for the preprocessing in question answering is how to deal with very long documents. We usually truncate them in other tasks, 
-when they are longer than the model maximum sentence length, but here, removing part of the the context might result in losing the answer we are looking 
-for. To deal with this, we will allow one (long) example in our dataset to give several input features, each of length shorter than the maximum length 
-of the model (or the one we set as a hyper-parameter). Also, just in case the answer lies at the point we split a long context, we allow some overlap 
-between the features we generate controlled by the hyper-parameter doc_stride:
-"""
-
-""""
-Note that we never want to truncate the question, only the context, else the only_second truncation picked. Now, our tokenizer can automatically return
-us a list of features capped by a certain maximum length, with the overlap we talked above, we just have to tell it with return_overflowing_tokens=True
-and by passing the stride:
-"""
-
-""""
-Now this will give us some work to properly treat the answers: we need to find in which of those features the answer actually is, and where exactly in
-that feature. The models we will use require the start and end positions of these answers in the tokens, so we will also need to to map parts of the
-original context to some tokens. Thankfully, the tokenizer we're using can help us with that by returning an offset_mapping:
-"""
-
-squad_v2 = True
+squad_v2 = False
 
 model_checkpoint = "albert-base-v2"
 
@@ -111,26 +91,6 @@ def prepare_train_features(examples):
                 tokenized_examples["end_positions"].append(token_end_index + 1)
 
     return tokenized_examples
-
-# tokenized_datasets = datasets.map(prepare_train_features, batched=True, remove_columns=datasets["train"].column_names)
-#
-# data_collator = tf_default_data_collator
-#
-# tf_train_set = tokenized_datasets["train"].to_tf_dataset(
-#     columns=["attention_mask", "input_ids", "start_positions", "end_positions"],
-#     dummy_labels=True,
-#     shuffle=True,
-#     batch_size=16,
-#     collate_fn=data_collator,
-# )
-#
-# tf_validation_set = tokenized_datasets["validation"].to_tf_dataset(
-#     columns=["attention_mask", "input_ids", "start_positions", "end_positions"],
-#     dummy_labels=True,
-#     shuffle=False,
-#     batch_size=16,
-#     collate_fn=data_collator,
-# )
 
 
 def squad_datasets(qa_datasets):

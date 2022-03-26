@@ -1,12 +1,12 @@
 from datasets import load_metric
 from transformers import TFAlbertForQuestionAnswering
 from transformers.data.data_collator import tf_default_data_collator
-from data import model_checkpoint, tokenizer, squad_datasets, datasets,metric
+from data import tokenizer, squad_datasets, datasets
 
 tf_train_set,validation_set,tokenized_datasets = squad_datasets(datasets)
 pad_on_right = tokenizer.padding_side == "right"
 tokenizer = tokenizer
-model = TFAlbertForQuestionAnswering.from_pretrained('/Users/dttai11/nlp/huggingface.co/SS8/albert_squad_2.0')
+model = TFAlbertForQuestionAnswering.from_pretrained('/huggingface.co/SS8/albert_squad_2.0')
 data_collator = tf_default_data_collator
 squad_v2 = True
 max_length = 384 # The maximum length of a feature (question and context)

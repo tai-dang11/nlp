@@ -7,7 +7,7 @@ def train(model,batch_size, epochs, lr, train_squad, valid_squad):
 
     model.compile(optimizer=tfa.optimizers.LAMB(lr,))
 
-    tensorboard_callback = TensorBoard(log_dir="./qa_model_save/logs")
+    tensorboard_callback = TensorBoard(log_dir="qa_model_save/logs")
 
     callbacks = [tensorboard_callback]
 
@@ -25,9 +25,8 @@ def train(model,batch_size, epochs, lr, train_squad, valid_squad):
 
 tf_train_set,tf_validation_set,tokenized_datasets = squad_datasets(datasets)
 
-# albert = TFAlbertForQuestionAnswering.from_pretrained(model_checkpoint)
+albert = TFAlbertForQuestionAnswering.from_pretrained(model_checkpoint)
 
-# train(model = albert, batch_size = 16, epochs=3,lr = 3e-5, train_squad = tf_train_set,valid_squad=tf_validation_set)
-albert = TFAlbertForQuestionAnswering.from_pretrained('/Users/dttai11/nlp/huggingface.co/SS8/albert_squad_2.0')
+train(model = albert, batch_size = 16, epochs=3,lr = 3e-5, train_squad = tf_train_set,valid_squad=tf_validation_set)
 albert.summary()
 
